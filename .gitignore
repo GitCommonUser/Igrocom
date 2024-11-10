@@ -1,0 +1,42 @@
+# Бинарные файлы и сборки
+bin/
+obj/
+
+# Папка с временными файлами
+.vscode/
+*.user
+*.suo
+*.sln.ide
+
+# Логи
+*.log
+
+# Файлы конфигурации
+appsettings.Development.json
+appsettings.Production.json
+appsettings.json
+secrets.json
+
+# Папка с кэшем
+wwwroot/lib/
+
+# Папка с пакетами
+packages/
+
+# Исключение временных файлов и кэша
+*.tmp
+*.temp
+
+# Исключение файлов, связанных с Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Исключение файлов, связанных с тестами
+TestResults/
+*.TestResults/
+*.coverage
+*.coveragexml
+
+# Исключение файлов, связанных с Entity Framework
+Migrations/
