@@ -38,10 +38,7 @@ ASP.NET Core/EFCore/PostgreSQL
 ![Домашняя страница](screenshots/media_create.png)
 
 Окно списка пользователей через админинстратора
-![Домашняя страница](screenshots/media_create.png)
-
-Окно редактирования игры через админинстратора
-![Домашняя страница](screenshots/game_change.png)
+![Домашняя страница](screenshots/user_list.png)
 
 Окно редактирования статьи через админинстратора
 ![Домашняя страница](screenshots/media_change.png)
