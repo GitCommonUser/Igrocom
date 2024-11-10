@@ -17,10 +17,12 @@ ASP.NET Core/EFCore/PostgreSQL
    ```bash
    git clone https://github.com/GitCommonUser/igrocom.git
 
-2. Установите зависимости:
+2. Запустите все SQL-скрипты из пути SqlScripts/DB.sql
+
+3. Установите зависимости:
    ```bash
    dotnet restore
 
-3. Запустите проект:
+4. Запустите проект:
    ```bash
    dotnet run
