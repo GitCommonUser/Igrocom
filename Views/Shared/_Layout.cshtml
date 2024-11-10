@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Игроком - @ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Igrocom.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header style="margin-left: 300px; margin-top: 10px; margin-bottom:10px; height: 40px;">
+        <div style="width:70%; float:left;">
+            <a asp-area="" asp-controller="Home" asp-action="Index"><button class="menu-button">&#127968 Главная</button></a>
+            <a asp-area="" asp-controller="Game" asp-action="Index"><button class="menu-button">&#128377 Игры</button></a>
+            <a asp-area="" asp-controller="Content" asp-action="Index"><button class="menu-button">&#128227 Статьи</button></a>
+            @* <a asp-area="" asp-controller="Home" asp-action="Privacy"><button class="menu-button">&#129300 О нас</button></a> *@
+
+            @{
+                var username = "";
+                var role = "";
+                var id = "";
+                if(User.Identity.IsAuthenticated)
+                {
+                    username = User.Identity.Name;
+                    role = User.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+                    id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+                    
+                }
+            }
+            @if(role == "admin")
+            {
+                <a asp-area="" asp-controller="User" asp-action="Index"><button class="menu-button"> Пользователи</button></a>
+                <a asp-area="" asp-controller="Game" asp-action="Create"><button class="menu-button">Добавить игру</button></a>
+                <a asp-area="" asp-controller="Content" asp-action="Create"><button class="menu-button">Добавить статью</button></a>
+            }
+
+        </div>
+        <div style=" float:left; text-align: right;">
+            
+            @if (username != "")
+            {
+                <a href="@Url.Action("Details","User",new {id = @id})"><button class="menu-button">@username</button></a>
+                <a asp-area="" asp-controller="Home" asp-action="Logout"><button class="menu-button">Выйти</button></a>
+            }
+            else
+            {
+                <a asp-area="" asp-controller="User" asp-action="Register"><button class="menu-button">&#128272
+                        Регистрация</button></a>
+                <a asp-area="" asp-controller="User" asp-action="Login"><button class="menu-button">&#128273
+                        Войти</button></a>
+            }
+
+        </div>
+        
+    </header>
+
+
+    @RenderBody()
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - Игроком 
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

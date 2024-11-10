@@ -1,0 +1,91 @@
+@model Igrocom.Models.Content
+
+@{
+    ViewData["Title"] = "Добавление статьи";
+}
+
+
+<div>
+    <div class="col-md-4" style="margin-inline: auto;">
+
+        <h1>Добавить статью</h1>
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data" id="valid-form">
+
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Title" class="control-label">Название</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+ 
+            
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Preface" class="control-label">Предисловие</label>
+                <textarea asp-for="Preface" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Preface" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Text" class="control-label">Основной текст</label>
+                <textarea asp-for="Text" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="margin-top:10px">
+                <label class="control-label">Главное изображение</label>
+                <input id="imageFile" name="imageData" class="form-control" type="file" />
+                <span id="imageError" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label class="control-label">Дополнительные файлы</label>
+                <input id="mediaFiles" name="mediaFilesData" class="form-control" type="file" multiple />
+                <span id="mediaFilesErrors" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group" style="margin-top:10px">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <div style="margin-top:10px">
+            <a asp-action="Index">Назад</a>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    document.getElementById('valid-form').addEventListener('submit', function (event) {
+        var imageFile = document.getElementById('imageFile').files[0];
+        var imageError = document.getElementById('imageError');
+
+        var mediaFiles = document.getElementById('mediaFiles').files[0];
+        var mediaFilesErrors = document.getElementById('mediaFilesErrors');
+
+        if (!imageFile) {
+            event.preventDefault();
+            imageError.textContent = 'Добавьте главное изображение !';
+        }
+        else {
+            imageError.textContent = '';
+        }
+
+        if (!mediaFiles) {
+            event.preventDefault();
+            mediaFilesErrors.textContent = "Добавьте дополнительные файлы !";
+        }
+        else {
+            mediaFilesErrors.textContent = '';
+        }
+    });
+
+</script>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

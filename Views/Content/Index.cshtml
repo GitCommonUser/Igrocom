@@ -1,0 +1,74 @@
+@model IEnumerable<Igrocom.Models.Content>
+
+@{
+    ViewData["Title"] = "Медиа";
+}
+
+<style>
+    div {
+        display: table;
+    }
+
+    div.t {
+        display: table-cell;
+        width: 100%;
+    }
+
+    div.t>input {
+        width: 100%;
+    }
+</style>
+
+<div class="container-games">
+    <div class="horizontal-scrolling-items">
+
+        <div class="horizontal-scrolling-items__item">
+            media media media media media media media media media media media media media media media media media media
+            media media media media media media media media media media media media media media media media media
+            media media media media media media media media media media media media media&nbsp
+        </div>
+
+        <div class="horizontal-scrolling-items__item">
+            media media media media media media media media media media media media media media media media media media
+            media media media media media media media media media media media media media media media media media
+            media media media media media media media media media media media media media&nbsp
+        </div>
+
+    </div>
+
+</div>
+
+<div style="margin-left:25%; margin-top: 10px; margin-right: 25%; margin-inline: auto;">
+
+
+    <nav class="navbar navbar-light">
+
+        <form class="form-inline" asp-action="Index" method="get">
+            <div style="width:500px;">
+                <div class="t">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search"
+                        name="searchString" value="@ViewData["CurrentFilter"]">
+                </div>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
+            </div>
+        </form>
+
+    </nav>
+</div>
+
+
+<div style="margin-left: 15%; margin-right:15%; text-align:center; margin-top:10px">
+    @foreach (var item in Model)
+    {
+
+        <div style="display:inline-block; text-align: center; margin-left: 10px;">
+            <a class="scale" href="@Url.Action("Details","Content",new {id = item.Id})" style="width: 580px; height: 326px;">
+                <img src="@Url.Action("GetImage", "Content", new { id = item.Id })" class="scale"
+                    style="width:100%; height:100%; position: relative" />
+            </a>
+
+            <p class="game-name" style="font-size: 20px;">@Html.DisplayFor(modelItem => item.Title)</p>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,145 @@
+@model Igrocom.Models.User
+
+
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* одна колонка */
+    }
+
+    .grid-item {
+        /* стилизация блоков */
+        margin-bottom: 20px;
+        /* пример отступа между блоками */
+    }
+
+    .parent {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }
+
+    .div1 {
+        grid-area: 1 / 1 / 6 / 4;
+    }
+
+    .div2 {
+        grid-area: 1 / 4 / 6 / 5;
+    }
+
+
+    .image-container {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        scroll-behavior: smooth;
+        /* Добавляем плавную прокрутку (для современных браузеров) */
+    }
+
+    .image-container img {
+        display: inline-block;
+        width: 100%;
+        height: 500px;
+        margin-right: 10px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 33% 1fr 33%;
+        align-items: start;
+    }
+</style>
+
+
+<div class="grid" style="padding-top: 10px;">
+    @{
+        var username = "";
+        var role = "";
+        var id = "";
+        if (User.Identity.IsAuthenticated)
+        {
+            username = User.Identity.Name;
+            role = User.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+            id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+        }
+    }
+    <div style="text-align: right; ">
+
+
+    </div>
+
+    <div style="margin-inline: auto;">
+
+        @if(Model.Id.ToString() == id)
+        {
+            <h1>Добро пожаловать, @Html.DisplayFor(model => model.Login)</h1>
+        }
+        else
+        {
+            <h1>Профиль пользователя @Html.DisplayFor(model => model.Login)</h1>
+        }
+
+        @{
+            if (ViewData["Games"] != null)
+            {
+                if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                {
+                    List<Game> list = ViewData["Games"] as List<Game>;
+                    if (list.Count > 0)
+                    {
+                        <h2 style="margin-top: 40px; color:rgb(167, 167, 167)">Любимые игры: </h2>
+                        <table class="table">
+                            <tbody>
+                                @foreach (var item in ViewData["Games"] as List<Game>)
+                                {
+                                    <tr>
+                                        <td style="padding: top:20px; font-size:20px;">
+                                            @Html.ActionLink(item.Title, "Details", "Game", new { id = item.Id }, null)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                }
+            }
+
+            if (ViewData["Contents"] != null)
+            {
+                if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                {
+                    List<Content> list = ViewData["Contents"] as List<Content>;
+                    if(list.Count > 0)
+                    {
+                        <h2 style="margin-top: 40px; color:rgb(167, 167, 167)">Любимые статьи: </h2>
+                        <table class="table">
+                            <tbody>
+                                @foreach (var item in ViewData["Contents"] as List<Content>)
+                                {
+                                    <tr>
+                                        <td style="padding: top:20px; font-size:20px;">
+                                            @Html.ActionLink(item.Title, "Details", "Content", new { id = item.Id }, null)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                }
+            }
+        }
+
+    </div>
+
+    <div>
+        
+    </div>
+</div>

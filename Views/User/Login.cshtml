@@ -1,0 +1,93 @@
+@model Igrocom.Models.User
+
+@{
+    ViewData["Title"] = "Вход в аккаунт";
+}
+
+
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-item {
+        margin-bottom: 20px;
+    }
+
+    .parent {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }
+
+    .div1 {
+        grid-area: 1 / 1 / 6 / 4;
+    }
+
+    .div2 {
+        grid-area: 1 / 4 / 6 / 5;
+    }
+
+
+    .image-container {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        scroll-behavior: smooth;
+    }
+
+    .image-container img {
+        display: inline-block;
+        width: 100%;
+        height: 500px;
+        margin-right: 10px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 33% 1fr 33%;
+        align-items: start;
+    }
+</style>
+
+
+<div class="grid" style="padding-top: 10px;">
+
+    <div style="text-align: right; ">
+    </div>
+
+
+
+
+    <div style="margin-inline: auto;">
+        <h1>Вход в аккаунт </h1>
+
+
+
+        <form asp-action="Login" method="post" enctype="multipart/form-data" id="valid-form">
+
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Login" class="control-label">Логин</label>
+                <input asp-for="Login" class="form-control" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Password" class="control-label">Пароль</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group" style="margin-top:10px">
+                <input type="submit" value="Войти" class="btn btn-primary" />
+            </div>
+        </form>
+
+
+
+    </div>
+
+</div>

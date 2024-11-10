@@ -1,0 +1,38 @@
+@model Igrocom.Models.User
+
+@{
+    ViewData["Title"] = "Изменение пользователя";
+}
+
+
+<div>
+    <div class="col-md-4" style="margin-inline: auto;">
+
+        <h1>Изменить пользователя </h1>
+
+        <form asp-action="Edit" method="post" enctype="multipart/form-data" id="valid-form">
+
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Login" class="control-label">Логин</label>
+                <input asp-for="Login" class="form-control" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="margin-top:10px">
+                <input type="submit" value="Подтвердить изменений" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <div style="margin-top:10px">
+            <a asp-action="Index">Назад</a>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

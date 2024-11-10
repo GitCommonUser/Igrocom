@@ -1,0 +1,197 @@
+@model Igrocom.Models.Content
+
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+
+<style>
+    .grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .grid-item {
+        margin-bottom: 20px;
+    }
+
+    .parent {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }
+
+    .div1 {
+        grid-area: 1 / 1 / 6 / 4;
+    }
+
+    .div2 {
+        grid-area: 1 / 4 / 6 / 5;
+    }
+
+
+    .image-container {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        scroll-behavior: smooth;
+    }
+
+    .image-container img {
+        display: inline-block;
+        width: 100%;
+        height: 500px;
+        margin-right: 10px;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: 33% 1fr 33%;
+        align-items: start;
+    }
+</style>
+
+
+<div class="container-games-details" style="text-align: center;">
+    <p>@Html.DisplayFor(model => model.Title)</p>
+</div>
+
+<div class="grid" style="padding-top: 10px;">
+
+    <div style="text-align: right; display: block;">
+        <div style="margin-bottom: 10px;">
+            <a asp-area="" asp-controller="Content" asp-action="Index"><button class="menu-button">&#128072 Назад</button></a>
+        </div>
+
+        @{
+            var username = "";
+            var role = "";
+            var id = "";
+            if (User.Identity.IsAuthenticated)
+            {
+                username = User.Identity.Name;
+                role = User.FindFirst(System.Security.Claims.ClaimTypes.Role).Value;
+                id = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
+            }
+        }
+        @if (!String.IsNullOrEmpty(id))
+        {
+
+            if (ViewData["IsFavorite"] != null)
+            {
+                bool isFav = (bool)ViewData["IsFavorite"];
+
+                if (isFav)
+                {
+                    <div style="margin-top: 10px; margin-bottom: 40px;">
+                        <form asp-action="RemoveFromFavorites" method="post">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="menu-button">&#128148 Исключить</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div style="margin-top: 10px; margin-bottom: 40px;">
+                        <form asp-action="AddToFavorites" method="post">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="menu-button">В избранное</button>
+                        </form>
+                    </div>
+                }
+            }
+        }
+        @if (role == "admin")
+        {
+            <div style="margin-bottom: 10px;">
+                <a asp-action="Edit" asp-route-id="@Model.Id"><button class="menu-button">Редактировать</button></a>
+            </div>
+            <div>
+                <a asp-action="Delete" asp-route-id="@Model.Id"><button class="menu-button">Удалить</button></a>
+            </div>
+        }
+
+    </div>
+
+
+
+
+    <div style="margin-inline: auto;">
+
+        <div>
+            <img src="@Url.Action("GetImage", "Content", new { id = Model.Id })"
+                style="width: 799px; height: 450px;border-radius: 10px; border: 1px rgb(0, 0, 0) solid; box-shadow: 0 0 5px #444;" />
+        </div>
+
+        <div class="game-info-block">
+            <h1>Предисловие </h1>
+            <div>
+                @foreach (var line in Model.Preface.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        <p>- @line</p>
+                    }
+                }
+            </div>
+        </div>
+
+
+        <div id="carouselExample" class="carousel slide" style="width:799px;">
+            <div class="carousel-inner" style="border-radius: 10px; box-shadow: 0 0 5px">
+                @{
+                    if (ViewData["Files"] != null)
+                    {
+                        if (ViewData.Values != null && ViewData.Values.Count() > 0)
+                        {
+                            bool isFirst = true;
+                            foreach (var item in ViewData["Files"] as List<MediaFiles>)
+                            {
+                                string base64String = "data:image/jpg;base64," + Convert.ToBase64String(item.File, 0, item.File.Length);
+                                if (isFirst)
+                                {
+                                    isFirst = false;
+                                    <div class="carousel-item active">
+                                        <img src="@base64String" style="height: 450px;width: 799px; border-radius: 0px;">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="carousel-item">
+                                        <img src="@base64String" style="height: 450px;width: 799px; border-radius: 0px;">
+                                    </div>
+                                }
+                            }
+                        }
+                    }
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+
+        <div class="game-info-block">
+            <div>
+                @foreach (var line in Model.Text.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        <p>    @line</p>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+
+</div>

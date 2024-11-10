@@ -1,0 +1,107 @@
+@model Igrocom.Models.Game
+
+@{
+    ViewData["Title"] = "Добавление игры";
+}
+
+
+<div>
+    <div class="col-md-4" style="margin-inline: auto;">
+
+        <h1>Добавить игру</h1>
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data" id="valid-form">
+            
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Title" class="control-label">Название</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="ReleaseDate" class="control-label">Дата выхода</label>
+                <input asp-for="ReleaseDate" class="form-control" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Genre" class="control-label">Жанр</label>
+                <input asp-for="Genre" class="form-control" />
+                <span asp-validation-for="Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Description" class="control-label">Описание</label>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Peculiarities" class="control-label">Особенности</label>
+                <textarea asp-for="Peculiarities" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Peculiarities" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label asp-for="Review" class="control-label">Рецензия</label>
+                <textarea asp-for="Review" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Review" class="text-danger"></span>
+            </div>
+
+            @* <input type="hidden" asp-for="Rating" value="1" /> *@
+            
+            <div class="form-group" style="margin-top:10px">
+                <label class="control-label">Главное изображение</label>
+                <input id="imageFile" name="imageData" class="form-control" type="file" />
+                <span id="imageError" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="margin-top:10px">
+                <label class="control-label">Дополнительные файлы</label>
+                <input id="gameFiles" name="gameFilesData" class="form-control" type="file" multiple />
+                <span id="gameFilesErrors" class="text-danger"></span>
+            </div>
+
+
+
+            <div class="form-group" style="margin-top:10px">
+                <input type="submit" value="Создать" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <div style="margin-top:10px">
+            <a asp-action="Index">Назад</a>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    document.getElementById('valid-form').addEventListener('submit', function (event) {
+        var imageFile = document.getElementById('imageFile').files[0];
+        var imageError = document.getElementById('imageError');
+
+        var gameFiles = document.getElementById('gameFiles').files[0];
+        var gameFilesErrors = document.getElementById('gameFilesErrors');
+        
+        if (!imageFile) {
+            event.preventDefault();
+            imageError.textContent = 'Добавьте главное изображение !';
+        }
+        else 
+        {
+            imageError.textContent = '';
+        }
+
+        if(!gameFiles)
+        {
+            event.preventDefault();
+            gameFilesErrors.textContent = "Добавьте дополнительные файлы !";
+        }
+        else
+        {  
+            gameFilesErrors.textContent ='';
+        }
+    });
+
+</script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
