@@ -54,7 +54,22 @@ ASP.NET Core/EFCore/PostgreSQL
    ```bash
    dotnet restore
 
-4. Запустите проект:
+4. Настройте подключение к БД через файл appsettings.json:
+   ```json
+   {
+      "Logging": {
+         "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+         }
+      },
+      "AllowedHosts": "*",
+      "ConnectionStrings": {
+      "IgrocomContext": "server=localhost;username=YOUR_USERNAME;database=YOUR_DATABASE"
+      }
+   }
+
+5. Запустите проект:
    ```bash
    dotnet run
 
