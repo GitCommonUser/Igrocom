@@ -98,4 +98,19 @@ AFTER INSERT OR UPDATE ON "Rating"
 FOR EACH ROW
 EXECUTE FUNCTION update_game_rating();
 
+create or replace function prevent_content_deletion()
+returns trigger as $$
+begin
+	if exists(select 1 from "UserContent" where "ContentId" = OLD."Id") then
+		raise exception 'Can not be deleted';
+	end if;
+	return old;
+end;
+$$ language plpgsql;
+
+CREATE TRIGGER trigger_media_view
+BEFORE DELETE ON Content
+FOR EACH ROW
+EXECUTE PROCEDURE prevent_content_deletion();
+
 create index rating_index on Rating(GameId);
